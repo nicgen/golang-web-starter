@@ -14,7 +14,7 @@ This project is made to accelerate a web app creation by handling:
 
 ```sh
 # clone the repo
-git clone https://github.com/nicgen/golang-web-starter](https://github.com/nicgen/golang-web-starter.git <your project>
+git clone https://github.com/nicgen/golang-web-starter.git <your project>
 cd <your project>
 ```
 
