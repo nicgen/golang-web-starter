@@ -16,20 +16,8 @@
   </head>
   <body>
     <div class="wrapper">
-      <header role="banner">
-        <div class="container">
-          <nav role="navigation">
-            <ul role="list">
-              <li role="listitem"><a href="/">Home</a></li>
-              <li role="listitem"><a href="/about">About</a></li>
-              <!-- ! not for production -->
-              <!-- <li role="listitem"><a href="/500">Force 500</a></li> 
-                    <li role="listitem"><a href="/error">Force Error</a></li> -->
-            </ul>
-            <button id="theme-toggle" class="theme-toggle auto" aria-label="Toggle theme"></button>
-          </nav>
-        </div>
-      </header>
+      {{template "banner" .}}
+      {{template "nav" .}}
       <main role="main">
         <div class="container">
           {{if .Data.IsError}}
@@ -39,11 +27,7 @@
           {{end}} {{.Content}}
         </div>
       </main>
-      <footer role="contentinfo">
-        <div class="container">
-          <p>&copy; 2024 My Web App</p>
-        </div>
-      </footer>
+      {{template "footer" .}}
       <script src="/static/js/theme.js"></script>
     </div>
   </body>
