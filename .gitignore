@@ -32,6 +32,9 @@ static/export/*.*
 # backup
 *_bak
 
+# env var (private)
+.env
+
 # build
 /build
 
