@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"runtime/debug"
+	"strings"
 	"web-starter/models"
 )
 
@@ -26,6 +27,13 @@ func HandleError(w http.ResponseWriter, statusCode int, message string) {
 	renderTemplate(w, "error", data)
 }
 
+func PostItOnNfty(msg string) {
+	url := "https://ntfy.sh/ReCuqPaYeDKW7wofNCK3LKEnwuwbWixXFVLfkBy77G"
+	fmt.Println(url)
+	http.Post(url, "text/plain",
+		strings.NewReader(msg))
+}
+
 // WithErrorHandling middleware that handles all errors and panics
 func WithErrorHandling(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -41,14 +49,14 @@ func WithErrorHandling(next http.Handler) http.Handler {
 				// switch to determine the status code and message
 				switch e := err.(type) {
 				case *models.CustomError: // handles your custom error type
-					fmt.Println(">>>>>>>>>>CUSTOM<<<<<<<<<<")
+					// fmt.Println(">>>>>>>>>>CUSTOM<<<<<<<<<<")
 					statusCode = e.StatusCode
 					message = e.Message
 				case *net.OpError: // for network-related errors
 					statusCode = http.StatusInternalServerError
 					message = "A network error occurred"
 				case string: // direct string panics
-					fmt.Println(">>>>>>>>>>STRING<<<<<<<<<<")
+					// fmt.Println(">>>>>>>>>>STRING<<<<<<<<<<")
 					switch e {
 					case "bad request":
 						statusCode = http.StatusBadRequest
@@ -57,16 +65,18 @@ func WithErrorHandling(next http.Handler) http.Handler {
 						statusCode = http.StatusNotFound
 						message = "Not Found"
 					default:
-						fmt.Println(">>>>>>>>>>STRING:Internal<<<<<<<<<<")
+						// fmt.Println(">>>>>>>>>>STRING:Internal<<<<<<<<<<")
 						statusCode = http.StatusInternalServerError
 						message = "Internal Server Error"
 					}
 				default: // handle other types of panics
-					fmt.Println(">>>>>>>>>>PANIC<<<<<<<<<<")
+					// fmt.Println(">>>>>>>>>>PANIC<<<<<<<<<<")
 					statusCode = http.StatusInternalServerError
 					message = "Internal Server Error"
 				}
 
+				// Post an alert on NTFY
+				PostItOnNfty(message)
 				// render the error page
 				HandleError(w, statusCode, message)
 			}

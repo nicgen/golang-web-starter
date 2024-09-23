@@ -1,12 +1,23 @@
 package main
 
 import (
+	"os"
+	"web-starter/cmd/lib"
 	"web-starter/handlers"
+
 	// "handlers"
 	"log"
 	"net/http"
 	"time"
 )
+
+var ntfy_token string
+
+func init() {
+	// load env file
+	lib.LoadEnv(".env")
+	ntfy_token = os.Getenv("NTFY_token")
+}
 
 func main() {
 	mux := setupMux()
