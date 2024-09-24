@@ -8,11 +8,14 @@ This project is made to accelerate a web app creation by handling:
 - html templates layout
 - dark and light theme with system preference detection and toggle button
 - responsive
+- environment variables (for secrets)
+- hooks with NTFY.sh (for sending server alerts) (see .env)
 - and more (css, favicon, etc.)
 
 ## Usage
 
 ```sh
+# rename and fill the .env_example to .env 
 # clone the repo
 git clone https://github.com/nicgen/golang-web-starter.git <your project>
 cd <your project>
@@ -33,6 +36,7 @@ Note: [link](https://hello-there.org/go/tools/live-server/) for installing **air
 
 ```txt
 ├── cmd
+├── .env
 ├── go.mod
 ├── handlers
 ├── models

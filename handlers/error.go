@@ -6,7 +6,7 @@ import (
 	"net"
 	"net/http"
 	"runtime/debug"
-	"strings"
+	"web-starter/cmd/lib"
 	"web-starter/models"
 )
 
@@ -25,13 +25,6 @@ func HandleError(w http.ResponseWriter, statusCode int, message string) {
 		ErrorCode: statusCode,
 	}
 	renderTemplate(w, "error", data)
-}
-
-func PostItOnNfty(msg string) {
-	url := "https://ntfy.sh/ReCuqPaYeDKW7wofNCK3LKEnwuwbWixXFVLfkBy77G"
-	fmt.Println(url)
-	http.Post(url, "text/plain",
-		strings.NewReader(msg))
 }
 
 // WithErrorHandling middleware that handles all errors and panics
@@ -76,7 +69,8 @@ func WithErrorHandling(next http.Handler) http.Handler {
 				}
 
 				// Post an alert on NTFY
-				PostItOnNfty(message)
+				ntfy_msg := "[FORUM server] " + message
+				lib.PostItOnNfty(ntfy_msg)
 				// render the error page
 				HandleError(w, statusCode, message)
 			}
